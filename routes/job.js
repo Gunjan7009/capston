@@ -9,15 +9,37 @@ env.config();
 
 router.post("/", isLoggedIn, async (req, res) => {
   try {
-    const { title, description, salary, location } = req.body;
-    const user = await User.findOne({ email: req.user.email });
-    const newJob = await new Job({
-      title,
-      description,
+    const {
+      companyName,
+      logoURL,
+      position,
       salary,
+      jobType,
+      remote,
       location,
+      description,
+      about,
+      skillsRequired,
+      information,
+    } = req.body;
+    console.log(req.body)
+    const user = await User.findOne({ email: req.user.email });
+    console.log(user)
+    const newJob = await new Job({
+      companyName,
+      logoURL,
+      position,
+      salary,
+      jobType,
+      remote,
+      location,
+      description,
+      about,
+      skillsRequired,
+      information,
       userId: user._id,
     }).save();
+    console.log(newJob)
     return res
       .status(200)
       .json({ message: "Job created successfully", id: newJob._id });
